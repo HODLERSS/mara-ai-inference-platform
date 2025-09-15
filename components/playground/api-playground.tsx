@@ -255,7 +255,7 @@ export function ApiPlayground({ selectedModel: modelFromUrl }: ApiPlaygroundProp
                   <History sx={{ mr: 1, verticalAlign: 'middle' }} />
                   Recent Requests
                 </Typography>
-                {requestHistory.slice(0, 3).map((req, index) => (
+                {requestHistory.slice(0, 3).map((req) => (
                   <Card
                     key={req.id}
                     sx={{

@@ -46,13 +46,11 @@ import {
   Speed,
   TrendingUp,
   Notifications,
-  Settings,
   Add,
   Edit,
   History,
   Timeline,
   NotificationsActive,
-  Schedule,
 } from '@mui/icons-material'
 
 interface SLO {
@@ -187,9 +185,8 @@ function TabPanel(props: { children?: React.ReactNode; index: number; value: num
 export function SloMonitoringDashboard() {
   const [activeTab, setActiveTab] = useState(0)
   const [showCreateSLO, setShowCreateSLO] = useState(false)
-  const [showCreateAlert, setShowCreateAlert] = useState(false)
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
 
@@ -405,7 +402,7 @@ export function SloMonitoringDashboard() {
           <Button
             variant="contained"
             startIcon={<Add />}
-            onClick={() => setShowCreateAlert(true)}
+            onClick={() => console.log('Create Alert')}
           >
             Create Alert
           </Button>

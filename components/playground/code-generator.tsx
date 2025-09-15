@@ -170,7 +170,7 @@ func main() {
 
       <Paper sx={{ mt: 2 }}>
         <Tabs value={selectedTab} onChange={(_, newValue) => setSelectedTab(newValue)}>
-          {languages.map((lang, index) => (
+          {languages.map((lang) => (
             <Tab key={lang.key} label={lang.name} />
           ))}
         </Tabs>
