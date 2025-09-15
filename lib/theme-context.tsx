@@ -10,7 +10,7 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  isDarkMode: false,
+  isDarkMode: true, // Default to dark mode
   toggleTheme: () => {},
 })
 
@@ -157,15 +157,16 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true) // Default to dark mode
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     if (savedTheme) {
       setIsDarkMode(savedTheme === 'dark')
     } else {
-      // Default to system preference
-      setIsDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches)
+      // Default to dark mode instead of system preference
+      setIsDarkMode(true)
+      localStorage.setItem('theme', 'dark')
     }
   }, [])
 
