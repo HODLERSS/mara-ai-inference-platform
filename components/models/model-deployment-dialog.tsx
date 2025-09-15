@@ -31,10 +31,8 @@ import {
 import {
   Settings,
   Speed,
-  Security,
   Rocket,
   CheckCircle,
-  Warning,
 } from '@mui/icons-material'
 
 interface ModelDeploymentDialogProps {

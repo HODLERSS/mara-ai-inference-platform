@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Box,
   Card,
@@ -44,7 +44,6 @@ import {
   Warning,
   Error,
   Speed,
-  Availability,
   TrendingUp,
   Notifications,
   Settings,
