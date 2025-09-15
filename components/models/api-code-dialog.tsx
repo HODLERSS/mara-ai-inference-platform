@@ -14,7 +14,6 @@ import {
   Paper,
   IconButton,
   Tooltip,
-  Chip,
 } from '@mui/material'
 import { ContentCopy, Check } from '@mui/icons-material'
 
@@ -203,7 +202,7 @@ public class MaraAiExample {
       <DialogContent>
         <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
           <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)}>
-            {languages.map((lang, index) => (
+            {languages.map((lang) => (
               <Tab
                 key={lang.key}
                 label={lang.label}

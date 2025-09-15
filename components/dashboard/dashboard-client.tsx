@@ -18,16 +18,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   IconButton,
   Tooltip,
-  Divider,
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material'
 import {
   Add,
-  Speed,
   AttachMoney,
   VpnKey,
   CheckCircle,
@@ -38,8 +35,6 @@ import {
   Visibility,
   ContentCopy,
   BarChart,
-  Timeline,
-  TrendingDown,
 } from '@mui/icons-material'
 import { UsageChart } from '@/components/charts/usage-chart'
 
@@ -144,7 +139,7 @@ const monthlyUsageData: UsageDataPoint[] = [
   { period: 'Sep', tokens: 1329000, cost: 170.0, requests: 10160 }
 ]
 
-export function DashboardClient({ initialInferences }: DashboardClientProps) {
+export function DashboardClient({ initialInferences: _ }: DashboardClientProps) {
   const [viewMode, setViewMode] = useState<'requests' | 'cost' | 'tokens'>('tokens')
   const [timePeriod, setTimePeriod] = useState<'daily' | 'monthly'>('daily')
 

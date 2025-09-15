@@ -8,7 +8,6 @@ import {
   Link,
   IconButton,
   Divider,
-  useTheme
 } from '@mui/material'
 import {
   LinkedIn,
@@ -71,7 +70,6 @@ const socialLinks = [
 ]
 
 export function Footer() {
-  const theme = useTheme()
   const currentYear = new Date().getFullYear()
 
   return (

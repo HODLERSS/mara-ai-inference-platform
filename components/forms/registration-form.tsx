@@ -59,7 +59,7 @@ export function RegistrationForm({ onComplete, onBack }: RegistrationFormProps) 
     resolver: zodResolver(registerSchema),
   })
 
-  const handleAccountSubmit = async (data: RegisterInput) => {
+  const handleAccountSubmit = async (_: RegisterInput) => {
     setIsLoading(true)
     setError(null)
 

@@ -123,7 +123,7 @@ export function Navbar() {
                   <Calculate sx={{ mr: 1 }} />
                   Cost Analysis
                 </MenuItem>
-                {session.user?.role === 'admin' && (
+                {session.user?.email === 'minjAI@mara.com' && (
                   <MenuItem component={Link} href="/admin" onClick={handleMenuClose}>
                     <AdminPanelSettings sx={{ mr: 1 }} />
                     Admin Panel
