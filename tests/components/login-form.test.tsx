@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { LoginForm } from '@/components/forms/login-form'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 

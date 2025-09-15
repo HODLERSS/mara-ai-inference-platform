@@ -39,9 +39,6 @@ import {
   Add,
   Warning,
   CheckCircle,
-  Schedule,
-  Language,
-  Storage,
 } from '@mui/icons-material'
 
 interface TabPanelProps {
@@ -96,7 +93,6 @@ const mockApiLimits: ApiLimit[] = [
 export function SettingsDashboard() {
   const [activeTab, setActiveTab] = useState(0)
   const [showIpDialog, setShowIpDialog] = useState(false)
-  const [showLimitDialog, setShowLimitDialog] = useState(false)
   const [newIp, setNewIp] = useState('')
   const [newIpDescription, setNewIpDescription] = useState('')
 
@@ -122,7 +118,7 @@ export function SettingsDashboard() {
     enforceIpRestrictions: true,
   })
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
 
@@ -338,7 +334,7 @@ export function SettingsDashboard() {
                   startIcon={<Add />}
                   variant="outlined"
                   size="small"
-                  onClick={() => setShowLimitDialog(true)}
+                  onClick={() => console.log('Add Limit')}
                 >
                   Add Limit
                 </Button>
