@@ -48,7 +48,6 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
   const [firstCallComplete, setFirstCallComplete] = useState(false)
   const [timeElapsed, setTimeElapsed] = useState(0)
   const [promotionClaimed, setPromotionClaimed] = useState(false)
-  const [creditEarned, setCreditEarned] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -73,7 +72,6 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
     // Check if within 3 minute window for promotion
     if (timeElapsed <= 180) {
       setPromotionClaimed(true)
-      setCreditEarned(20)
     }
 
     await new Promise(resolve => setTimeout(resolve, 2000))

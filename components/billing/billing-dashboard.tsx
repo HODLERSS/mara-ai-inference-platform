@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Box,
   Card,
@@ -73,8 +73,8 @@ const mockModelCosts: ModelCost[] = [
 
 export function BillingDashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState('November 2024')
-  const [creditBalance, setCreditBalance] = useState(20) // Mock credit balance
-  const [creditHistory, setCreditHistory] = useState([
+  const [creditBalance] = useState(20) // Mock credit balance
+  const [creditHistory] = useState([
     { date: new Date(), amount: 20, type: 'PROMOTIONAL', description: 'Welcome bonus: First token in 3 minutes!' },
     { date: new Date(Date.now() - 86400000), amount: -2.45, type: 'USAGE', description: 'API usage: llama-2-70b' },
   ])
