@@ -25,6 +25,9 @@ import {
   Code,
   Rocket,
   ContentCopy,
+  CardGiftcard,
+  Timer,
+  Celebration,
 } from '@mui/icons-material'
 
 interface OnboardingWelcomeProps {
@@ -44,6 +47,8 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
   const [isGeneratingKey, setIsGeneratingKey] = useState(false)
   const [firstCallComplete, setFirstCallComplete] = useState(false)
   const [timeElapsed, setTimeElapsed] = useState(0)
+  const [promotionClaimed, setPromotionClaimed] = useState(false)
+  const [creditEarned, setCreditEarned] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -64,6 +69,13 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
 
   const simulateFirstCall = async () => {
     setFirstCallComplete(true)
+
+    // Check if within 3 minute window for promotion
+    if (timeElapsed <= 180) {
+      setPromotionClaimed(true)
+      setCreditEarned(20)
+    }
+
     await new Promise(resolve => setTimeout(resolve, 2000))
     setActiveStep(2)
   }
@@ -90,12 +102,48 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
             Let's get you up and running in under 3 minutes
           </Typography>
 
-          <Chip
-            label={`Time: ${formatTime(timeElapsed)}`}
-            color={timeElapsed < 180 ? 'success' : 'warning'}
-            variant="outlined"
-            sx={{ fontSize: '1rem', py: 1 }}
-          />
+          {/* Promotion Banner */}
+          {!promotionClaimed && timeElapsed <= 180 && (
+            <Alert
+              severity="info"
+              icon={<CardGiftcard />}
+              sx={{ mb: 2, backgroundColor: 'primary.lighter', border: 2, borderColor: 'primary.main' }}
+            >
+              <Typography variant="subtitle1" fontWeight="bold">
+                🎁 LIMITED TIME OFFER: Generate your first token in {formatTime(180 - timeElapsed)} to earn $20 credit!
+              </Typography>
+            </Alert>
+          )}
+
+          {promotionClaimed && (
+            <Alert
+              severity="success"
+              icon={<Celebration />}
+              sx={{ mb: 2 }}
+            >
+              <Typography variant="subtitle1" fontWeight="bold">
+                🎉 Congratulations! You've earned $20 in credits!
+              </Typography>
+            </Alert>
+          )}
+
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, alignItems: 'center' }}>
+            <Chip
+              icon={<Timer />}
+              label={`Time: ${formatTime(timeElapsed)}`}
+              color={timeElapsed < 180 ? 'success' : 'warning'}
+              variant="outlined"
+              sx={{ fontSize: '1rem', py: 1 }}
+            />
+            {timeElapsed <= 180 && !promotionClaimed && (
+              <Chip
+                label={`${formatTime(180 - timeElapsed)} to earn $20!`}
+                color="primary"
+                variant="filled"
+                sx={{ fontSize: '1rem', py: 1, animation: 'pulse 1.5s infinite' }}
+              />
+            )}
+          </Box>
         </Box>
 
         {/* Progress Stepper */}
@@ -225,10 +273,18 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
                   </Button>
 
                   {firstCallComplete && (
-                    <Alert severity="success" sx={{ mt: 2 }}>
-                      <strong>Success!</strong> Your API call completed in 95ms with 47 tokens.
-                      MARA is ready for your applications!
-                    </Alert>
+                    <Box sx={{ mt: 2 }}>
+                      <Alert severity="success">
+                        <strong>Success!</strong> Your API call completed in 95ms with 47 tokens.
+                        MARA is ready for your applications!
+                      </Alert>
+                      {promotionClaimed && (
+                        <Alert severity="success" icon={<CardGiftcard />} sx={{ mt: 1 }}>
+                          <strong>$20 Credit Applied!</strong> You completed your first token generation within 3 minutes.
+                          Your account has been credited with $20 to use on any MARA AI services.
+                        </Alert>
+                      )}
+                    </Box>
                   )}
                 </CardContent>
               </Card>
@@ -310,6 +366,32 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
                   <Typography variant="h4" color={timeElapsed < 180 ? 'success.main' : 'warning.main'}>
                     {formatTime(timeElapsed)}
                   </Typography>
+                  {!promotionClaimed && timeElapsed <= 180 && (
+                    <Box sx={{ mt: 2, p: 2, bgcolor: 'primary.lighter', borderRadius: 2 }}>
+                      <Typography variant="subtitle2" color="primary.main" fontWeight="bold">
+                        💰 $20 Credit Available!
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Complete first API call in {formatTime(180 - timeElapsed)}
+                      </Typography>
+                      <LinearProgress
+                        variant="determinate"
+                        value={(timeElapsed / 180) * 100}
+                        sx={{ mt: 1, height: 6, borderRadius: 3 }}
+                        color="primary"
+                      />
+                    </Box>
+                  )}
+                  {promotionClaimed && (
+                    <Box sx={{ mt: 2, p: 2, bgcolor: 'success.lighter', borderRadius: 2 }}>
+                      <Typography variant="subtitle2" color="success.main" fontWeight="bold">
+                        ✅ $20 Credit Earned!
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Applied to your account
+                      </Typography>
+                    </Box>
+                  )}
                 </Box>
 
                 <Divider sx={{ my: 2 }} />
@@ -342,13 +424,24 @@ export function OnboardingWelcome({ userData, onComplete }: OnboardingWelcomePro
                     />
                   )}
                   {firstCallComplete && (
-                    <Chip
-                      icon={<CheckCircle />}
-                      label="First API Call"
-                      color="success"
-                      variant="outlined"
-                      size="small"
-                    />
+                    <>
+                      <Chip
+                        icon={<CheckCircle />}
+                        label="First API Call"
+                        color="success"
+                        variant="outlined"
+                        size="small"
+                      />
+                      {promotionClaimed && (
+                        <Chip
+                          icon={<CardGiftcard />}
+                          label="$20 Credit Earned"
+                          color="success"
+                          variant="filled"
+                          size="small"
+                        />
+                      )}
+                    </>
                   )}
                 </Box>
 

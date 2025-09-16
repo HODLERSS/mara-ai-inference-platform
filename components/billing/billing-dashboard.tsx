@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Box,
   Card,
@@ -36,6 +36,8 @@ import {
   CreditCard,
   Analytics,
   Settings,
+  CardGiftcard,
+  AccountBalance,
 } from '@mui/icons-material'
 
 interface BillingPeriod {
@@ -71,6 +73,12 @@ const mockModelCosts: ModelCost[] = [
 
 export function BillingDashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState('November 2024')
+  const [creditBalance, setCreditBalance] = useState(20) // Mock credit balance
+  const [creditHistory, setCreditHistory] = useState([
+    { date: new Date(), amount: 20, type: 'PROMOTIONAL', description: 'Welcome bonus: First token in 3 minutes!' },
+    { date: new Date(Date.now() - 86400000), amount: -2.45, type: 'USAGE', description: 'API usage: llama-2-70b' },
+  ])
+
   const currentUsage = mockBillingHistory[0]
   const previousUsage = mockBillingHistory[1]
   const usageGrowth = ((currentUsage.cost - previousUsage.cost) / previousUsage.cost) * 100
@@ -80,6 +88,22 @@ export function BillingDashboard() {
 
   return (
     <Box>
+      {/* Credits Alert */}
+      {creditBalance > 0 && (
+        <Alert
+          severity="success"
+          icon={<CardGiftcard />}
+          sx={{ mb: 3 }}
+        >
+          <Typography variant="subtitle2" fontWeight="bold">
+            You have ${creditBalance.toFixed(2)} in credits available!
+          </Typography>
+          <Typography variant="body2">
+            Credits will be automatically applied to your next API calls.
+          </Typography>
+        </Alert>
+      )}
+
       {/* Current Usage Overview */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} md={3}>
@@ -153,14 +177,14 @@ export function BillingDashboard() {
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <TrendingUp sx={{ mr: 1, color: 'warning.main' }} />
-                <Typography variant="h6">Projected</Typography>
+                <CardGiftcard sx={{ mr: 1, color: 'success.main' }} />
+                <Typography variant="h6">Credit Balance</Typography>
               </Box>
-              <Typography variant="h3" color="warning.main">
-                ${(currentUsage.cost * 1.2).toFixed(0)}
+              <Typography variant="h3" color="success.main">
+                ${creditBalance.toFixed(0)}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                end of month estimate
+                available for use
               </Typography>
             </CardContent>
           </Card>
@@ -253,6 +277,53 @@ export function BillingDashboard() {
 
         {/* Billing Information & History */}
         <Grid item xs={12} lg={4}>
+          {/* Credit History Card */}
+          <Card sx={{ mb: 3 }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <AccountBalance sx={{ mr: 1, color: 'success.main' }} />
+                <Typography variant="h6">Credit History</Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" gutterBottom>
+                  Available Balance
+                </Typography>
+                <Typography variant="h5" color="success.main">
+                  ${creditBalance.toFixed(2)}
+                </Typography>
+              </Box>
+
+              <Divider sx={{ my: 2 }} />
+
+              <Typography variant="subtitle2" gutterBottom>
+                Recent Transactions
+              </Typography>
+              {creditHistory.map((transaction, index) => (
+                <Paper key={index} variant="outlined" sx={{ p: 1.5, mb: 1 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box>
+                      <Typography variant="body2">
+                        {transaction.description}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {transaction.date.toLocaleDateString()}
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="subtitle2"
+                      color={transaction.amount > 0 ? 'success.main' : 'text.primary'}
+                      fontWeight="bold"
+                    >
+                      {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
+                    </Typography>
+                  </Box>
+                </Paper>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Billing Information Card */}
           <Card sx={{ mb: 3 }}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>

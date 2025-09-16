@@ -15,10 +15,17 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Credit tracking
+  creditBalance     Float     @default(0)
+  firstTokenAt      DateTime?
+  promotionEligible Boolean   @default(true)
+  promotionClaimed  Boolean   @default(false)
+
   // Relations
   accounts  Account[]
   sessions  Session[]
   inferences InferenceRequest[]
+  credits   Credit[]
 
   @@map("users")
 }
@@ -91,4 +98,25 @@ enum InferenceStatus {
   PROCESSING
   COMPLETED
   FAILED
+}
+
+model Credit {
+  id          String      @id @default(cuid())
+  userId      String
+  amount      Float
+  type        CreditType
+  description String
+  appliedAt   DateTime    @default(now())
+  expiresAt   DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("credits")
+}
+
+enum CreditType {
+  PROMOTIONAL
+  PURCHASED
+  REFUND
+  ADJUSTMENT
 }
